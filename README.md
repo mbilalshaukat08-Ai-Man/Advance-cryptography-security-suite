@@ -1,5 +1,7 @@
 # Advanced Cryptography & Security Suite
 
+**Live demo:** https://mbilalshaukat08-ai-man.github.io/Advance-cryptography-security-suite/
+
 A small browser-based tool for playing with classic ciphers. It can encrypt/decrypt text and files using Caesar and Vigenère ciphers, and it can also try to crack a Caesar cipher automatically by testing all 25 possible shifts and guessing which one produces real English text.
 
 Built with plain HTML, CSS, and JavaScript — no frameworks, no libraries, nothing to install.
