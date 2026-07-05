@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Cryptography & Security Suite</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Advanced Cryptography & Security Suite</h1>
+        <p>Encrypt, decrypt, and crack classic ciphers right in your browser</p>
+    </div>
+
+    <div class="tabs">
+        <div class="tab-btn active" onclick="switchTab(event, 'interactive')">Cipher</div>
+        <div class="tab-btn" onclick="switchTab(event, 'file')">File Encryption</div>
+        <div class="tab-btn" onclick="switchTab(event, 'brute')">Crack a Cipher</div>
+    </div>
+
+    <div id="interactive" class="tab-content active">
+        <div class="control-row">
+            <button id="modeToggle" class="toggle-btn" onclick="toggleMode()">Encrypt Mode</button>
+            
+            <label for="algorithmSelect">Cipher Type:</label>
+            <select id="algorithmSelect" onchange="handleEngineChange()">
+                <option value="caesar">Caesar</option>
+                <option value="vigenere">Vigenère</option>
+            </select>
+
+            <div id="caesarControls" class="range-container">
+                <label for="interactiveKey">Shift:</label>
+                <input type="range" id="interactiveKey" min="1" max="25" value="3" oninput="syncKey(this.value)">
+                <span id="keyValueDisplay" class="key-badge">3</span>
+            </div>
+
+            <div id="vigenereControls" class="range-container" style="display: none;">
+                <label for="vigenereKey">Keyword:</label>
+                <input type="text" id="vigenereKey" class="text-input-field" value="CYBER" placeholder="e.g. CYBER" oninput="runLiveCipher()">
+            </div>
+        </div>
+
+        <div class="text-areas-grid">
+            <div class="area-box">
+                <label>Input Text:</label>
+                <textarea id="interactiveInput" placeholder="Type or paste your text here..." oninput="runLiveCipher()"></textarea>
+            </div>
+            <div class="area-box">
+                <label>Output:</label>
+                <textarea id="interactiveOutput" readonly placeholder="Result will show up here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div id="file" class="tab-content">
+        <div class="control-row">
+            <label>Mode:</label>
+            <input type="radio" id="fileEnc" name="fileMode" value="encrypt" checked onchange="processFileData()"> 
+            <label for="fileEnc" style="font-weight: normal; margin-right: 15px;">Encrypt</label>
+            <input type="radio" id="fileDec" name="fileMode" value="decrypt" onchange="processFileData()"> 
+            <label for="fileDec" style="font-weight: normal; margin-right: 20px;">Decrypt</label>
+            
+            <label for="fileAlgorithmSelect">Cipher:</label>
+            <select id="fileAlgorithmSelect" onchange="handleFileEngineChange()">
+                <option value="caesar">Caesar</option>
+                <option value="vigenere">Vigenère</option>
+            </select>
+
+            <div id="fileCaesarConfig" style="display: inline-block;">
+                <label style="margin-left: 20px;">Key Shift:</label>
+                <input type="number" id="fileKey" min="1" max="25" value="3" oninput="processFileData()" style="width: 60px; background: var(--bg-tertiary); border: 1px solid var(--border); color:#fff; padding:4px; border-radius:4px; text-align: center;">
+            </div>
+
+            <div id="fileVigenereConfig" style="display: none;">
+                <label style="margin-left: 20px;">Keyword:</label>
+                <input type="text" id="fileVigenereKey" class="text-input-field" value="CYBER" oninput="processFileData()" style="width: 120px;">
+            </div>
+        </div>
+
+        <div class="file-drop-zone" onclick="document.getElementById('fileInputElement').click()">
+            <p>Click to upload a .txt file</p>
+            <input type="file" id="fileInputElement" accept=".txt" style="display: none;" onchange="handleFileLoad(event)">
+            <div id="fileNameDisplay" class="file-info"></div>
+        </div>
+
+        <div class="text-areas-grid" style="margin-bottom: 20px;">
+            <div class="area-box">
+                <label>Original File Contents:</label>
+                <textarea id="fileInputText" readonly placeholder="No file loaded yet..."></textarea>
+            </div>
+            <div class="area-box">
+                <label>Result:</label>
+                <textarea id="fileOutputText" readonly placeholder="Processed text will show up here..."></textarea>
+            </div>
+        </div>
+
+        <button class="action-btn" onclick="executeFileDownload()">Download Result</button>
+    </div>
+
+    <div id="brute" class="tab-content">
+        <div class="control-row" style="margin-bottom: 10px;">
+            <label>Paste Caesar-encrypted text below. This tries every possible shift and guesses which one is correct:</label>
+        </div>
+        <textarea id="bruteInput" style="height: 100px; margin-bottom: 20px;" placeholder="Paste encrypted text here..." oninput="runBruteForceCrack()"></textarea>
+        
+        <label>Results:</label>
+        <textarea id="bruteOutput" class="brute-output" readonly placeholder="All 25 possible shifts will show up here, ranked by likelihood..."></textarea>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
